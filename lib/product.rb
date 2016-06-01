@@ -13,10 +13,13 @@ class Product
         add_to_products
     end
 
+    #Returns an array of products
     def self.all
         @@products
     end
 
+    #Returns all items that match a given title
+    #Otherwise returns nil
     def self.find_by_title(name)
         @@products.each do |item|
             if name == item.title
@@ -26,6 +29,8 @@ class Product
         return nil
     end
 
+    #Returns all items that match a given department
+    #Otherwise returns nil
     def self.find_by_department(department)
         @@products.each do |item|
             if department == item.department
@@ -35,14 +40,16 @@ class Product
         return nil
     end
 
-    def is_damaged?
-        @damaged
+    #Makes item faulty
+    def brake_item
+        @damaged = true
     end
 
     def in_stock?
         @stock > 0 ? true : false
     end
     
+    #Returns items that are in stock
     def self.in_stock
         stocked = []
         @@products.each do |item|
@@ -52,7 +59,9 @@ class Product
     end
 
     private
-
+    
+    #Adds product to array or throws DuplicateProductError if there is
+    #a product of the same name already
     def add_to_products
         @@products.each do |item|
             if self.title == item.title

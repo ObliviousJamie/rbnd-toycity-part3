@@ -9,7 +9,32 @@ class Transaction
         @customer = customer
         @product = product
         add_transaction
-        if options[:refund] && refund_allowed? && !product.damaged
+        checks_refund(options)
+    end
+
+    #Returns all transations
+    def self.all
+        @@transactions
+    end
+
+    #Find and returns item at a given index
+    def self.find(index)
+        @@transactions[index - 1]
+    end
+
+    private
+
+    #Updates id of class variable and variable
+    #Adds itself to array of transitons
+    def add_transaction
+        @@id = @@id + 1
+        @id = @@id
+        @@transactions << self
+    end
+
+    #Checks if this is a returned item
+    def checks_refund(options ={})
+        if options[:refund] && refund_allowed? && product.damaged
             puts "Refunding...!"
             increase_stock
         elsif options[:refund]
@@ -17,22 +42,6 @@ class Transaction
         else
             reduce_stock
         end
-    end
-
-    def self.all
-        @@transactions
-    end
-
-    def self.find(index)
-        @@transactions[index - 1]
-    end
-
-    private
-
-    def add_transaction
-        @@id = @@id + 1
-        @id = @@id
-        @@transactions << self
     end
 
     #Checks customer is the same who purchases the item
@@ -49,6 +58,7 @@ class Transaction
         @@id = @id - 1
     end
 
+    #Checks if someone has tried to return this item before
     def refunded_item_before?
         @@refunds.each do |item| 
             if (item.customer == @customer) && (item.product == @product)

@@ -66,7 +66,9 @@ require_relative "lib/transaction"
 # Should return OutOfStockError: 'LEGO Firehouse Headquarter' is out of stock.
 
 #Testing code for new function
- walter.brake_item(nanoblock)
+ puts "-----Testing new features-----"
+ #walter.brake_item(nanoblock)
+ nanoblock.brake_item
  walter.return_item(nanoblock)
  puts nanoblock.stock
  Product.new(title: "LEGO Iron Man", price: 22.99, stock: 55, department: "toys")
