@@ -21,6 +21,10 @@ class Customer
         Transaction.new(self,product,refund: product.title)
     end
 
+    def brake_item(product)
+        product.damaged = true
+    end
+
 
     def self.all
         @@customers

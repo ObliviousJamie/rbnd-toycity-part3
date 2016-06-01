@@ -3,13 +3,17 @@ class Transaction
 
     @@id = 0
     @@transactions = []
+    @@refunds = []
 
     def initialize(customer, product, options = {})
         @customer = customer
         @product = product
         add_transaction
-        if options[:refund] && refund_allowed?
+        if options[:refund] && refund_allowed? && !product.damaged
+            puts "Refunding...!"
             increase_stock
+        elsif options[:refund]
+            puts "Not allowed refund"
         else
             reduce_stock
         end
@@ -34,12 +38,26 @@ class Transaction
     #Checks customer is the same who purchases the item
     def refund_allowed?
         @@transactions.each do |purchase|
-            if (purchase.customer == @customer) && (purchase.product == @product)
+            if (purchase.customer == @customer) && (purchase.product == @product) && !refunded_item_before?
                 return true
             else
                 return false
             end
         end
+        #Remove transation from list and into list of attempted refund
+        @@refund << @@transactions.pop
+        @@id = @id - 1
+    end
+
+    def refunded_item_before?
+        @@refunds.each do |item| 
+            if (item.customer == @customer) && (item.product == @product)
+                return true
+            else
+                return false
+            end
+        end
+        return false
     end
 
     def increase_stock
