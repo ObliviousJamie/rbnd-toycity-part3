@@ -4,11 +4,15 @@ class Transaction
     @@id = 0
     @@transactions = []
 
-    def initialize(customer, product)
+    def initialize(customer, product, options = {})
         @customer = customer
         @product = product
         add_transaction
-        reduce_stock
+        if options[:refund] && refund_allowed?
+            increase_stock
+        else
+            reduce_stock
+        end
     end
 
     def self.all
@@ -25,6 +29,21 @@ class Transaction
         @@id = @@id + 1
         @id = @@id
         @@transactions << self
+    end
+
+    #Checks customer is the same who purchases the item
+    def refund_allowed?
+        @@transactions.each do |purchase|
+            if (purchase.customer == @customer) && (purchase.product == @product)
+                return true
+            else
+                return false
+            end
+        end
+    end
+
+    def increase_stock
+        @product.stock = @product.stock + 1
     end
 
     def reduce_stock

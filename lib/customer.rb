@@ -17,6 +17,10 @@ class Customer
         end
     end
 
+    def return_item(product)
+        Transaction.new(self,product,refund: product.title)
+    end
+
 
     def self.all
         @@customers
