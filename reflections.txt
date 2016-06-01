@@ -1,0 +1,13 @@
+How long did you spend working on this project?
+Roughly 2-3 hours
+
+What was the most rewarding challenge you conquered?
+The logic of returning items was the most challenging however as it meant having a few compatible methods in multiple classes.
+
+What two additional features did you build? Why?
+1. Additonal fields in Products (Damaged and department). The user can break, and search by department with these
+2. A feature to allow users to return items unless damaged
+I chose these as they seemed to be useful for the client, and I felt that the code for returning items would be rewarding.
+
+Where do you still have room to grow?
+Using more of Ruby's one line comments and removing redundent or long-winded code.
