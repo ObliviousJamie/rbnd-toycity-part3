@@ -1,15 +1,38 @@
 class Product
-    attr_reader :title
+    attr_reader :title, :stock, :price
 
     @@products = []
 
     def initialize(options={})
         @title = options[:title]
+        @price = options[:price]
+        @stock = options[:stock]
         add_to_products
     end
 
     def self.all
         @@products
+    end
+
+    def self.find_by_title(name)
+        @@products.each do |item|
+            if name == item.title
+                return item
+            end
+        end
+        return nil
+    end
+
+    def in_stock?
+        @stock > 0 ? true : false
+    end
+    
+    def self.in_stock
+        stocked = []
+        @@products.each do |item|
+            stocked << item if item.in_stock? 
+        end
+        stocked
     end
 
     private
