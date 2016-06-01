@@ -69,3 +69,7 @@ require_relative "lib/transaction"
  walter.brake_item(nanoblock)
  walter.return_item(nanoblock)
  puts nanoblock.stock
+ Product.new(title: "LEGO Iron Man", price: 22.99, stock: 55, department: "toys")
+ test_prod = Product.find_by_department("toys")
+ puts test_prod.title
+

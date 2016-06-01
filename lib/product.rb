@@ -1,5 +1,5 @@
 class Product
-    attr_reader :title,:price
+    attr_reader :title,:price, :department
     attr_accessor :stock,:damaged
 
     @@products = []
@@ -9,6 +9,7 @@ class Product
         @price = options[:price]
         @stock = options[:stock]
         @damaged = false
+        @department = options[:department]
         add_to_products
     end
 
@@ -23,6 +24,19 @@ class Product
             end
         end
         return nil
+    end
+
+    def self.find_by_department(department)
+        @@products.each do |item|
+            if department == item.department
+                return item
+            end
+        end
+        return nil
+    end
+
+    def is_damaged?
+        @damaged
     end
 
     def in_stock?
