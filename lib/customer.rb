@@ -1,3 +1,4 @@
+require_relative "transaction"
 class Customer
     attr_reader :name
 
@@ -6,6 +7,14 @@ class Customer
     def initialize(options = {})
         @name = options[:name]
         add_to_customers
+    end
+
+    def purchase(product)
+        if product.in_stock? 
+            Transaction.new(self,product)
+        else
+            raise OutOfStockError, "'#{product.title}' is out of stock."
+        end
     end
 
 
