@@ -19,7 +19,7 @@ class Transaction
 
     #Find and returns item at a given index
     def self.find(index)
-        @@transactions[index - 1]
+        @@transactions.find{|id| id.id  == index}
     end
 
     private
@@ -48,14 +48,18 @@ class Transaction
     def refund_allowed?
         @@transactions.each do |purchase|
             if (purchase.customer == @customer) && (purchase.product == @product) && !refunded_item_before?
+                attempted_refund
                 return true
             else
+                attempted_refund
                 return false
             end
         end
+    end
+
+    def attempted_refund
         #Remove transation from list and into list of attempted refund
-        @@refund << @@transactions.pop
-        @@id = @id - 1
+        @@refunds << @@transactions.pop
     end
 
     #Checks if someone has tried to return this item before
@@ -63,19 +67,17 @@ class Transaction
         @@refunds.each do |item| 
             if (item.customer == @customer) && (item.product == @product)
                 return true
-            else
-                return false
             end
         end
         return false
     end
 
     def increase_stock
-        @product.stock = @product.stock + 1
+        @product.stock += 1
     end
 
     def reduce_stock
-        @product.stock = @product.stock - 1
+        @product.stock -= 1
     end
 
 end
