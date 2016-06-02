@@ -46,16 +46,12 @@ class Product
     end
 
     def in_stock?
-        @stock > 0 ? true : false
+        @stock > 0
     end
     
     #Returns items that are in stock
     def self.in_stock
-        stocked = []
-        @@products.each do |item|
-            stocked << item if item.in_stock? 
-        end
-        stocked
+        @@products.find_all {|item| item.in_stock?}
     end
 
     private
