@@ -27,9 +27,13 @@ class Transaction
     #Updates id of class variable and variable
     #Adds itself to array of transitons
     def add_transaction
-        @@id = @@id + 1
-        @id = @@id
-        @@transactions << self
+        if @product.in_stock?
+            @@id = @@id + 1
+            @id = @@id
+            @@transactions << self
+        else
+            raise OutOfStockError, "'#{product.title}' is out of stock."
+        end
     end
 
     #Checks if this is a returned item
